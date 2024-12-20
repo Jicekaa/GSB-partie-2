@@ -6,7 +6,10 @@ function Rapports(){
     console.log();
     return(
         <>
-            <h1>AU RAPPORT</h1>
+            <div className="flex flex-col items-center justify-center bg-gray-100">
+                <h1>AU RAPPORT</h1>
+            </div>
+            
             
             {/* Juste pour l'exemple */}
             {/* 
@@ -17,8 +20,6 @@ function Rapports(){
             <div>cp : {visiteur.cp}</div>
             <div>ville : {visiteur.ville}</div>
             */}
-            
-
         </>
     )
 }
