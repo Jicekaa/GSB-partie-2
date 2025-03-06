@@ -35,12 +35,12 @@ function Index(){
                 console.log("Connexion réussie : ", response.data);
             } else {
                 console.log("login / mdp pas bon chef");
-                setErreurLogin(true); //si erreur de saisie //fonctionne pas
+                setErreurLogin(true); //si erreur de saisie
                                      //affiche bannière erreurlogin
             }
 
         })
-        .catch((error) => { 
+        .catch((error) => { //on catch les err de co si elle échoue
             console.error("Erreur de connexion : ", error); //fonctionne
         });
     }

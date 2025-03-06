@@ -9,8 +9,7 @@ function Medecins() {
     const navigate = useNavigate();
 
     const [nomMedecins, setNomMedecins] = useState(""); //état champ de saisie
-    const [listeMedecins, setListeMedecins] = useState([]) //liste contenant ts les médecins trouvés
-
+    const [listeMedecins, setListeMedecins] = useState([]); //liste contenant ts les médecins trouvés
     const [medecin, setMedecin] = useState({}); //état qui contient les données du médecin sélectionné
 
 
@@ -19,7 +18,8 @@ function Medecins() {
     async function charger() {
         try {
             //appel API
-            const response = await api.get(`http://192.168.136.196/restGSB/medecins?nom=${nomMedecins}`);
+            //RAPPEL : changer l'@ IP en fonction de là où je me connecte
+            const response = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${nomMedecins}`);
             const medecins = response.data.map(medecin => `${medecin.nom} ${medecin.prenom}`); //récup nom/prénom dans l'api et créer un tableau avec "map"
             setListeMedecins(medecins); //màj et c'est ce qui affiche la liste ENFIN!!!!
 
@@ -47,13 +47,14 @@ function Medecins() {
     );
     
 
-    //Fct° qd le médecin sera sélectionné dans la liste
+    //Fct° qui valorise le médecin sélectionné
     async function selectMedecin(leMedecin) {
         //récup ttes data du médecin en question
-        const response2 = await api.get(`http://192.168.136.196/restGSB/medecins?nom=${medecin}`);
-        const infosMedecin = response2.data.map(leMedecin => `${leMedecin.id} ${leMedecin.nom} ${leMedecin.prenom}`);
+        //RAPPEL : changer l'@ IP en fonction de là où je me connecte
+        const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin.split(" ")[0]}`);
+        const infosMedecin = response2.data[0];
         
-        setMedecin(leMedecin);
+        setMedecin(infosMedecin);
         setNomMedecins(leMedecin); // champ saisie = médecin choisi
         setListeMedecins([]); //cache la liste après avoir choisi son médecin
         console.log("Médecin sélectionné : ", infosMedecin);
