@@ -8,6 +8,7 @@ import Accueil from './pages/accueil/accueil.jsx'
 import Medecins from './pages/accueil/medecins.jsx'
 import Rapports from './pages/accueil/rapports.jsx'
 import './index.css'
+import FicheMedecin from './pages/accueil/fichemedecin.jsx'
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,17 @@ const router = createBrowserRouter([
     children: [
       {
         path : 'Medecins',
-        element: <Medecins />
+        element: <Medecins />,
+
+        // enfant du composant Medecins, attention
+        // à bien mettre le : dans path
+        // qui indique que la route => dynamique
+        children : [
+          {
+            path : ':id',
+            element: <FicheMedecin/>
+          },
+        ]
       },
     
       {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import api from "../../api/api";
+import FicheMedecin from "./fichemedecin";
 
 function Medecins() {
 
@@ -11,6 +13,7 @@ function Medecins() {
     const [nomMedecins, setNomMedecins] = useState(""); //état champ de saisie
     const [listeMedecins, setListeMedecins] = useState([]); //liste contenant ts les médecins trouvés
     const [medecin, setMedecin] = useState({}); //état qui contient les données du médecin sélectionné
+    const [version, setVersion] = useState(0);
 
 
 
@@ -58,6 +61,10 @@ function Medecins() {
         setNomMedecins(leMedecin); // champ saisie = médecin choisi
         setListeMedecins([]); //cache la liste après avoir choisi son médecin
         console.log("Médecin sélectionné : ", infosMedecin);
+
+        //charger composant & forcer re-render de React pour afficher bonne version page (URL)
+        setVersion(version+1);
+        navigate(''+infosMedecin.id);
     }
 
     async function rechercherRapports() {
@@ -88,6 +95,10 @@ function Medecins() {
                     </ul>
                 </div>
             </div>
+
+
+            {/* Charge le composant-enfant FicheMedecin en lui partageant état medecin */}
+            <Outlet context={[medecin, setMedecin]} key={version} />
         </div>
     );
 
