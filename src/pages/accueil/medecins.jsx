@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import api from "../../api/api";
-import FicheMedecin from "./fichemedecin";
+
 
 function Medecins() {
 
