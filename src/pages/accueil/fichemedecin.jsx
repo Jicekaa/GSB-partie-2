@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/api";
 
 function FicheMedecin() {
     const [medecin, setMedecin] = useOutletContext(); // Récupère state Medecin
     const [affichage, setAffichage] = useState('fiche'); // Affichage par défaut, fiche par défaut
 
-    /*Composant imbriquée Fiche, qui va prendre comme param le hook Medecin*/
+    /*COMPOSANT IMBRIQUÉE Fiche, qui va prendre comme param le hook Medecin*/
     function Fiche({ leMedecin }) {
 
         const [updateMedecinSucess, setUpdateMedecinSuccess] = useState(null); //check si màj réussi ou non
@@ -17,7 +17,7 @@ function FicheMedecin() {
         function updatemedecin(e) {
             e.preventDefault() /*évite de charger la page*/
 
-            const data = Object.fromEntries(new FormData(e.target)); /*récup données form & convertir json*/
+            const data = Object.fromEntries(new FormData(e.target)); /*récup données du form & convertir json*/
             data.id = medecin.id; /*add id du médecin dans json*/
             sendUpdateMedecin(data); //màj
 
@@ -26,7 +26,7 @@ function FicheMedecin() {
         /*Appel API + Méthode PUT pour màj le médecin dans la BDD*/
         async function sendUpdateMedecin(params) {
             try {
-                const maj = await axios.put(`http://192.168.162.196/restGSB/majMedecin`, params);
+                const maj = await api.put(`http://192.168.162.196/restGSB/majMedecin`, params);
                 console.log('Màj réussie : ', maj.data);
                 setUpdateMedecinSuccess(true);
             } catch (erreur) {
@@ -66,7 +66,7 @@ function FicheMedecin() {
                         <input
                             type="text"
                             name="adresse"
-                            defaultValue={medecin.adresse}  
+                            defaultValue={medecin.adresse}
                         />
                     </label>
                     <br />
@@ -112,26 +112,47 @@ function FicheMedecin() {
     }
 
 
-    /*Composant imbriquée Rapports Medecin, qui prend en props idMedecin et récup rapport dans API*/
+    /*COMPOSANT IMBRIQUÉE Rapports, qui prend en props idMedecin et récup rapport dans API*/
     function Rapports({ idMedecin }) {
-        
+
         /*utilisation hook useEffect : appel à l'api via méthode GET*/
         /*dès le refresh du composant*/
-        /*URL API : `http://@IP-du-serveur-bdd/restGSB/rapports/idMedecin` exemple idMedecin => 4 */
+        /*URL API : `http://@IP-du-serveur-bdd/restGSB/rapports/${idMedecin}` exemple idMedecin => 4 */
 
-        const [rapportsMedecin, setRapportsMedecin] = useState([]); //Stockage des rapports deu médecin
+        const [rapportsMedecin, setRapportsMedecin] = useState([]); //Stockage des rapports du médecin
 
         useEffect(() => {
             async function rapports() {
-                /*à compléter*/
-                const 
+                try {
+                    const responseRapports = await api.get(`http://192.168.162.196/restGSB/rapports/${idMedecin}`); //appel API
+                    setRapportsMedecin(responseRapports.data) //récup les données de l'appel de l'API et stock tableau
+                    console.log('Rapport du médecin: ', responseRapports.data); //vérification
+                } catch (error) {
+                    console.error("Erreur lors de la récup des rapports : ", error);
+                }
             }
             rapports();
         }, [idMedecin])
 
         return (
-            <h1>Les Rapports du Médecin</h1>
-
+            <>
+                <h1>Rapports du Médecin</h1>
+                {/*
+                {rapportsMedecin.length > 0 ? (
+                    <ul>
+                        {rapportsMedecin.map((rapport) => (
+                            <li key={rapport.id} className="border p-4 mb-2">
+                                <h2><strong>Motif : </strong>{rapport.motif}</h2>
+                                <p><strong>Bilan : </strong> {rapport.bilan}</p>
+                                <p><strong>Date : </strong> {new Date(rapport.date).toLocaleDateString()}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Aucun rapport trouvé pour ce médecin.</p>
+                )}
+                */}
+            </>
         )
     }
 
@@ -144,8 +165,8 @@ function FicheMedecin() {
                             <button
                                 onClick={() => setAffichage('fiche')}
                                 className={`px-4 py-2 font-semibold rounded-md transition-colors duration-200 ${affichage === 'fiche'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 hover:bg-blue-100 text-blue-600'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 hover:bg-blue-100 text-blue-600'
                                     }`} >
                                 Fiche Médecin
                             </button>
@@ -154,8 +175,8 @@ function FicheMedecin() {
                             <button
                                 onClick={() => setAffichage('rapports')}
                                 className={`px-4 py-2 font-semibold rounded-md transition-colors duration-200 ${affichage === 'rapports'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 hover:bg-blue-100 text-blue-600'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 hover:bg-blue-100 text-blue-600'
                                     }`} >
                                 Rapports Médecin
                             </button>

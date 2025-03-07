@@ -54,7 +54,8 @@ function Medecins() {
     async function selectMedecin(leMedecin) {
         //récup ttes data du médecin en question
         //RAPPEL : changer l'@ IP en fonction de là où je me connecte
-        const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin.split(" ")[0]}`);
+        const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin[0]}`);
+        //[0] ==> récupère le 1er élément de la liste leMedecin
         const infosMedecin = response2.data[0];
         
         setMedecin(infosMedecin);
