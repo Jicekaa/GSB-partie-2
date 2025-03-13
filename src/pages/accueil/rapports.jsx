@@ -4,9 +4,8 @@ import { useOutletContext } from "react-router-dom";
 
 function Rapports() {
 
-        
-
-
+    const [medecin, setMedecin] = useState({});
+    const [visiteur, setVisiteur] = useOutletContext();
 
     return (
         <>
