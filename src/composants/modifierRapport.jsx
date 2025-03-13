@@ -1,6 +1,5 @@
-import { useState } from "react"
+function ModifierRapport(){
 
-
-export default function ModifierRapport(){
-    
 }
+
+export default ModifierRapport;

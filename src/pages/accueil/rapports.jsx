@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
-import { useOutletContext } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
+import AjouterRapport from "../../composants/ajouterRapport";
+import ModifierRapport from "../../composants/modifierRapport";
 
 function Rapports() {
 
     const [medecin, setMedecin] = useState({});
-    const [visiteur, setVisiteur] = useOutletContext();
+    const [affichage, setAffichage] = useState('ajout');
 
     return (
         <>
@@ -35,7 +37,7 @@ function Rapports() {
                     </ul>
                 </div>
             </div>
-
+            
             {/*Condition pour faire afficher les bons onglets */
                 affichage === 'ajout' ?
                     <AjouterRapport />

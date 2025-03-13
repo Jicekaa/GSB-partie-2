@@ -5,6 +5,7 @@ export default function AjouterRapport({visiteur}){
     const [addRapportSuccess, setaddRapportSuccess] = useState();
 
     function ajouteRapport(e) {
+        e.preventDefault() /*évite de charger la page*/
 
     }
 
@@ -23,7 +24,18 @@ export default function AjouterRapport({visiteur}){
 
     return(
         <>
-        
+            <h2>Ajouter un rapport à {}</h2><br/>
+            <label>Date de visite</label><br/>
+            <input type="datetime-local"/>
+
+            <label>Motif</label>
+            <input type="text" />
+
+            <label>Bilan</label>
+            <input type="text" />
+
+
+
         </>
     )
 }

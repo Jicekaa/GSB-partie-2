@@ -27,7 +27,7 @@ function Medecins() {
             setListeMedecins(response.data); //màj et c'est ce qui affiche la liste ENFIN!!!!
 
             //test dans la console log pr voir si tout est bien récup
-            // console.log("nom des médecins : ", medecins);
+            console.log("nom des médecins : ", response.data);
 
         } catch (error) {
             console.error("ptite erreur liste médecins", error);

@@ -10,6 +10,7 @@ import Rapports from './pages/accueil/rapports.jsx'
 import './index.css'
 import FicheMedecin from './pages/accueil/fichemedecin.jsx'
 import AjouterRapport from './composants/ajouterRapport.jsx'
+import ModifierRapport from './composants/modifierRapport.jsx'
 
 const router = createBrowserRouter([
   {
@@ -44,11 +45,11 @@ const router = createBrowserRouter([
 
         children : [
           {
-            path : '/ajouterRapport',
+            path : './composants/ajouterRapport',
             element: <AjouterRapport />,
           },
           {
-            path: '/rapports_a_date',
+            path: './composants/modifierRapport',
             element: <ModifierRapport />
           }
         ]
