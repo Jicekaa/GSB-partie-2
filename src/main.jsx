@@ -9,6 +9,7 @@ import Medecins from './pages/accueil/medecins.jsx'
 import Rapports from './pages/accueil/rapports.jsx'
 import './index.css'
 import FicheMedecin from './pages/accueil/fichemedecin.jsx'
+import AjouterRapport from './composants/ajouterRapport.jsx'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,18 @@ const router = createBrowserRouter([
     
       {
         path : 'Rapports',
-        element: <Rapports />
+        element: <Rapports />,
+
+        children : [
+          {
+            path : '/ajouterRapport',
+            element: <AjouterRapport />,
+          },
+          {
+            path: '/rapports_a_date',
+            element: <ModifierRapport />
+          }
+        ]
       },
     ]
 

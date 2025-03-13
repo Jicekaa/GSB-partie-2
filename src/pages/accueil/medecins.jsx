@@ -23,11 +23,11 @@ function Medecins() {
             //appel API
             //RAPPEL : changer l'@ IP en fonction de là où je me connecte
             const response = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${nomMedecins}`);
-            const medecins = response.data.map(medecin => `${medecin.nom} ${medecin.prenom}`); //récup nom/prénom dans l'api et créer un tableau avec "map"
-            setListeMedecins(medecins); //màj et c'est ce qui affiche la liste ENFIN!!!!
+            // const medecins = response.data.map(medecin => `${medecin.nom} ${medecin.prenom}`); //récup nom/prénom dans l'api et créer un tableau avec "map"
+            setListeMedecins(response.data); //màj et c'est ce qui affiche la liste ENFIN!!!!
 
             //test dans la console log pr voir si tout est bien récup
-            console.log("nom des médecins : ", medecins);
+            // console.log("nom des médecins : ", medecins);
 
         } catch (error) {
             console.error("ptite erreur liste médecins", error);
@@ -54,7 +54,8 @@ function Medecins() {
     async function selectMedecin(leMedecin) {
         //récup ttes data du médecin en question
         //RAPPEL : changer l'@ IP en fonction de là où je me connecte
-        const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin[0]}`);
+        // const leNomMedecin = leMedecin.split(" ")[0];
+        const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin}`);
         //[0] ==> récupère le 1er élément de la liste leMedecin
         const infosMedecin = response2.data[0];
         
@@ -68,9 +69,7 @@ function Medecins() {
         navigate(''+infosMedecin.id);
     }
 
-    async function rechercherRapports() {
 
-    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
@@ -86,10 +85,10 @@ function Medecins() {
                     {/*Affichage de la liste des médecins selon la recherche*/}
                     <ul>
                         {listeMedecins.map((medecin) => (
-                            <li key={medecin}
+                            <li key={medecin.id}
                             className="p-2 mb-2 rounded cursor-pointer hover:bg-gray-300 bg-gray-200 duration-300"
-                            onClick={() => selectMedecin(medecin)}>
-                                {medecin}
+                            onClick={() => selectMedecin(medecin.nom)}>
+                                {medecin.nom} {medecin.prenom}
                             </li>
                         ))
                         }
