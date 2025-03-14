@@ -25,7 +25,7 @@ export default function Accueil(){
                 </h1>
                 
             </div>
-            <Outlet context={{visiteur, setVisiteur}} />
+            <Outlet context={[visiteur, setVisiteur]} />
         </>
     );
 }

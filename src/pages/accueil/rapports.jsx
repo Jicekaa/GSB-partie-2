@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
-import api from "../../api/api";
-import { Outlet, useOutletContext } from "react-router-dom";
 import AjouterRapport from "../../composants/ajouterRapport";
 import ModifierRapport from "../../composants/modifierRapport";
+import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
 
-function Rapports() {
-
+export default function Rapports() {
     const [medecin, setMedecin] = useState({});
     const [affichage, setAffichage] = useState('ajout');
+    const [visiteur, setVisiteur] = useOutletContext();
+    const navigateTo = useNavigate();
+
+    // function goToAjouter() {
+    //     console.log("keskilia dans medecin : ", medecin);
+    //     setAffichage("ajout");
+    //     navigateTo(`/Accueil/Rapports/ajouterRapport`)
+    // }
+
+    // function goToModifier() {
+    //     setAffichage("modifier");
+    //     navigateTo(`/Accueil/Rapports/modifierRapport`)
+    // }
 
     return (
         <>
@@ -16,7 +27,7 @@ function Rapports() {
                     <ul className="flex justify-center space-x-4">
                         <li>
                             <button
-                                onClick={() => setAffichage('ajout')}
+                                onClick={() => setAffichage("ajout")}
                                 className={`px-4 py-2 font-semibold rounded-md transition-colors duration-200 ${affichage === 'ajout'
                                     ? 'bg-blue-600 text-white'
                                     : 'bg-gray-100 hover:bg-blue-100 text-blue-600'
@@ -40,10 +51,11 @@ function Rapports() {
             
             {/*Condition pour faire afficher les bons onglets */
                 affichage === 'ajout' ?
-                    <AjouterRapport />
-                    :
-                    <ModifierRapport />
-            }
+                <AjouterRapport />
+                :
+                <ModifierRapport />
+        }
+            {/*<Outlet context={[visiteur, medecin]} /> */}
 
 
             {/* test #1 */}
@@ -68,8 +80,4 @@ function Rapports() {
             {/*</div>*/}
         </>
     )
-
-
 }
-
-export default Rapports;

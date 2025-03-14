@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import api from "../../api/api";
+import api from "../api/api";
 
 function FicheMedecin() {
     const [medecin, setMedecin] = useOutletContext(); // Récupère state Medecin
@@ -116,7 +116,7 @@ function FicheMedecin() {
                 try {
                     const responseRapports = await api.get(`http://192.168.162.196/restGSB/rapports/${idMedecin}`); // Appel API
                     console.log('Rapport du médecin: ', responseRapports.data); // Vérification des données
-                    setRapportsMedecin(Array.isArray(responseRapports.data) ? responseRapports.data : []);
+                    setRapportsMedecin(responseRapports.data);
                 } catch (error) {
                     console.error("Erreur lors de la récupération des rapports : ", error);
                 }
@@ -129,7 +129,7 @@ function FicheMedecin() {
         return (
             <>
                 <h1>Rapports du Médecin</h1>
-                {Array.isArray(rapportsMedecin) && rapportsMedecin.length > 0 ? (
+                {rapportsMedecin.length > 0 ? (
                     <ul>
                         {rapportsMedecin.map((rapport) => (
                             <li key={rapport.id} className="border p-4 mb-2">

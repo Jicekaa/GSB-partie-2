@@ -1,69 +1,63 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-//note pour moi : tjr importer les différentes pages ici
-import Index from './pages/index.jsx'
-import Accueil from './pages/accueil/accueil.jsx'
-import Medecins from './pages/accueil/medecins.jsx'
-import Rapports from './pages/accueil/rapports.jsx'
-import './index.css'
-import FicheMedecin from './pages/accueil/fichemedecin.jsx'
-import AjouterRapport from './composants/ajouterRapport.jsx'
-import ModifierRapport from './composants/modifierRapport.jsx'
+// Import des pages
+import Index from './pages/index.jsx';
+import Accueil from './pages/accueil/accueil.jsx';
+import Medecins from './pages/accueil/medecins.jsx';
+import Rapports from './pages/accueil/rapports.jsx';
+import './index.css';
+import FicheMedecin from './composants/fichemedecin.jsx';
+import AjouterRapport from './composants/ajouterRapport.jsx';
+import ModifierRapport from './composants/modifierRapport.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Index />
+    element: <Index />,
   },
-
   {
     path: '/Accueil',
     element: <Accueil />,
 
-    // enfant du composant accueil qui va en hériter 
+    // Routes enfants du composant Accueil
     children: [
       {
-        path : 'Medecins',
+        path: 'Medecins',
         element: <Medecins />,
 
-        // enfant du composant Medecins, attention
-        // à bien mettre le : dans path
-        // qui indique que la route => dynamique
-        children : [
+        // Enfants du composant Medecins
+        children: [
           {
-            path : ':id',
-            element: <FicheMedecin/>
+            path: ':id', // Dynamique
+            element: <FicheMedecin />,
           },
-        ]
+        ],
       },
-    
       {
-        path : 'Rapports',
+        path: 'Rapports',
         element: <Rapports />,
 
-        children : [
+        // Enfants du composant Rapports
+        children: [
           {
-            path : './composants/ajouterRapport',
+            path: 'ajouterRapport', // Sous-route explicite
             element: <AjouterRapport />,
           },
           {
-            path: './composants/modifierRapport',
-            element: <ModifierRapport />
-          }
-        ]
+            path: 'modifierRapport', // Sous-route explicite
+            element: <ModifierRapport />,
+          },
+        ],
       },
-    ]
-
+    ],
   },
-
-  
-
 ]);
 
+// Point d'entrée de l'application
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);
