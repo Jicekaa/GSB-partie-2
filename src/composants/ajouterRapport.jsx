@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../api/api";
-import { useOutlet, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutlet, useOutletContext, useParams } from "react-router-dom";
 
 
 function AjouterRapport({ visiteur }) {
-
-    // const [visiteur, setVisiteur] = useOutletContext();
+    //const navigate = useNavigate();
     const [nomRecherche, setNomRecherche] = useState("");
     const [listeMedecins, setListeMedecins] = useState([]);
     const [medecinSelectionne, setMedecinSelectionne] = useState(null);
@@ -37,7 +36,6 @@ function AjouterRapport({ visiteur }) {
     }, [nomRecherche]); //fct° est déclenchée à chaque fois que `nomRecherche` change
 
 
-
     //ÉTAPE 2 : Formulaire ajout de rapport
 
     //Fonction gérer la saisie des champs dans le formulaire (date, motif, bilan)
@@ -53,14 +51,17 @@ function AjouterRapport({ visiteur }) {
         const params = {
             ...formData, //Données saisies dans le formulaire
             idMedecin: medecinSelectionne.id, //add id médecin sélectionné
+            idVisiteur: visiteur.id // add id du visiteur
         };
-        console.log("Données qui sont envoyées ? : ", params) //test pr voir ???
+        
+        console.log("Données qui sont envoyées : ", params) //test pr voir ???
         try {
             // Appel à l'API pour envoyer les données via la méthode PUT
-            const ajoutbdd = await api.put(`http://192.168.162.196/restGSB/ajouterRapport`, params);
+            const ajoutbdd = await api.put(`http://192.168.162.196/restGSB/ajouterRapport/`, params);
             console.log("Insertion réussie du rapport :", ajoutbdd);
             setAddRapportSuccess(true); //màj en cas de succès
             setFormData({date: "", motif: "", bilan: ""});
+            
         } catch (error) {
             console.error("Erreur lors de l'ajout du rapport :", error);
             setAddRapportSuccess(false); //màj de l'état en cas d'erreur
@@ -108,7 +109,8 @@ function AjouterRapport({ visiteur }) {
             {medecinSelectionne && (
                 <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md mt-6">
                     <p className="mb-4">
-                        Médecin sélectionné : <strong>{medecinSelectionne.nom} {medecinSelectionne.prenom}</strong>
+                        Médecin sélectionné : <strong>{medecinSelectionne.nom} {medecinSelectionne.prenom}</strong><br />
+                        L'ID du médecin sélectionné : <strong>{medecinSelectionne.id}</strong>
                     </p>
                     <form onSubmit={ajouteRapport}>
                         {/*Champ pour la date*/}
@@ -152,6 +154,7 @@ function AjouterRapport({ visiteur }) {
                     {/*Messages de succès ou d'erreur*/}
                     {addRapportSuccess && <p className="text-green-600 mt-4">Rapport bien ajouté</p>}
                     {addRapportSuccess === false && <p className="text-red-600 mt-4">Erreur lors de l'ajout du rapport.</p>}
+                    
                 </div>
             )}
         </div>

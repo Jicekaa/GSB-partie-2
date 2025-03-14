@@ -7,18 +7,7 @@ export default function Rapports() {
     const [medecin, setMedecin] = useState({});
     const [affichage, setAffichage] = useState('ajout');
     const [visiteur, setVisiteur] = useOutletContext();
-    const navigateTo = useNavigate();
 
-    // function goToAjouter() {
-    //     console.log("keskilia dans medecin : ", medecin);
-    //     setAffichage("ajout");
-    //     navigateTo(`/Accueil/Rapports/ajouterRapport`)
-    // }
-
-    // function goToModifier() {
-    //     setAffichage("modifier");
-    //     navigateTo(`/Accueil/Rapports/modifierRapport`)
-    // }
 
     return (
         <>
@@ -51,9 +40,9 @@ export default function Rapports() {
             
             {/*Condition pour faire afficher les bons onglets */
                 affichage === 'ajout' ?
-                <AjouterRapport />
+                <AjouterRapport visiteur={visiteur} /> //récup l'id du visiteur
                 :
-                <ModifierRapport />
+                <ModifierRapport visiteur={visiteur}/>
         }
             {/*<Outlet context={[visiteur, medecin]} /> */}
 
