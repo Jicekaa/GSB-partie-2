@@ -49,7 +49,7 @@ function AjouterRapport({ visiteur }) {
         const params = {
             ...formData, //Données saisies dans le formulaire
             idMedecin: medecinSelectionne.id, //add id médecin sélectionné
-            idVisiteur: visiteur.id // add id du visiteur
+            idVisiteur: visiteur.id // add id visiteur connecté (aribiAlain)
         };
         
         console.log("Données qui sont envoyées : ", params) //test pr voir ???
