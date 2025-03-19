@@ -15,7 +15,7 @@ function ModifierRapport({ visiteur }) {
             if (regex_yyyymmdd.test(date)) {
                 rechercherRapports(visiteur.id, date);
             } else {
-                setMajRapportSuccess(false);
+                setRapportTrouveSuccess(false);
             }
         }
     }
@@ -27,13 +27,13 @@ function ModifierRapport({ visiteur }) {
             console.log("Données récupérées depuis l'API : ", response.data);
             setListeRapports(response.data);
             if (response.data.length > 0) {
-                setMajRapportSuccess(true);
+                setRapportTrouveSuccess(true);
             } else {
-                setMajRapportSuccess(false);
+                setRapportTrouveSuccess(false);
             }
         } catch (error) {
             console.error("Erreur : ", error);
-            setMajRapportSuccess(false);
+            setRapportTrouveSuccess(false);
         }
     }
 
@@ -60,7 +60,7 @@ function ModifierRapport({ visiteur }) {
 
             {/* Msg rapport trouvé succès ou erreur */}
             {RapportTrouveSuccess === true && <p className="text-green-600 mt-4">Rapports bien trouvés !</p>}
-            {RapportTrouveSuccess === false && <p className="text-red-600 mt-4">Aucun rapport trouvé ou erreur rencontrée.</p>}
+            {RapportTrouveSuccess === false && <p className="text-red-600 mt-4">Aucun rapports trouvés :'( </p>}
 
             {/*Les rapports trouvés*/}
             {listeRapports.length > 0 && (
