@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import api from "../api/api";
-import { useNavigate, useOutlet, useOutletContext, useParams } from "react-router-dom";
-
 
 function AjouterRapport({ visiteur }) {
     //const navigate = useNavigate();

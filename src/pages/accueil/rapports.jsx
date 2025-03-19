@@ -44,8 +44,6 @@ export default function Rapports() {
                 :
                 <ModifierRapport visiteur={visiteur}/>
         }
-            {/*<Outlet context={[visiteur, medecin]} /> */}
-
 
             {/* test #1 */}
             {/*}
