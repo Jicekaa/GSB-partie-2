@@ -2,7 +2,7 @@
 
 GSB est une application web client léger, développée en Javascript avec la bibliothèque React. Le framework tailwindcss est utilisé pour faciliter le développement du style de l'application web.
 
-Pour se connecter à l'application, un couple identifiant et mot de passe doit être insérer.
+Pour se connecter à l'application, un couple identifiant et mot de passe doit être inséré.
 
 ![img1](photos/écran%20de%20connexion%20GSB.png)
 
