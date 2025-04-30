@@ -17,7 +17,7 @@ function Medecins() {
     async function charger() {
         try {
             // Appel à l'API
-            const response = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${nomMedecins}`);
+            const response = await api.get(`http://192.168.198.196/restGSB/medecins?nom=${nomMedecins}`);
             setListeMedecins(response.data); // mise à jour de la liste des médecins
 
             // Vérification de la réponse
@@ -49,7 +49,7 @@ function Medecins() {
 
         try {
             // Récupérer toutes les données du médecin
-            const response2 = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${leMedecin.nom}`);
+            const response2 = await api.get(`http://192.168.198.196/restGSB/medecins?nom=${leMedecin.nom}`);
             const infosMedecin = response2.data[0];
 
             setMedecin(infosMedecin);

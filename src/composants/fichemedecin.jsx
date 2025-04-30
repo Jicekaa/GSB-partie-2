@@ -22,7 +22,7 @@ function FicheMedecin() {
         /*Appel API + Méthode PUT pour mettre à jour le médecin dans la BDD*/
         async function sendUpdateMedecin(params) {
             try {
-                const maj = await api.put(`http://192.168.162.196/restGSB/majMedecin`, params);
+                const maj = await api.put(`http://192.168.198.196/restGSB/majMedecin`, params);
                 console.log('Màj réussie : ', maj.data);
                 setUpdateMedecinSuccess(true);
             } catch (erreur) {
@@ -114,7 +114,7 @@ function FicheMedecin() {
         useEffect(() => {
             async function rapports() {
                 try {
-                    const responseRapports = await api.get(`http://192.168.162.196/restGSB/rapports/${idMedecin}`); // Appel API
+                    const responseRapports = await api.get(`http://192.168.198.196/restGSB/rapports/${idMedecin}`); // Appel API
                     console.log('Rapport du médecin: ', responseRapports.data); // Vérification des données
                     setRapportsMedecin(responseRapports.data);
                 } catch (error) {

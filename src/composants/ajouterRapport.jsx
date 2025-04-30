@@ -19,7 +19,7 @@ function AjouterRapport({ visiteur }) {
             if (nomRecherche.length > 0) {
                 try {
                     //Appel l'API pour obtenir liste médecins
-                    const response = await api.get(`http://192.168.162.196/restGSB/medecins?nom=${nomRecherche}`);
+                    const response = await api.get(`http://192.168.198.196/restGSB/medecins?nom=${nomRecherche}`);
                     setListeMedecins(response.data); // màj liste médecins trouvés
                     console.log("Liste des médecins trouvés : ", response.data); //vérif° réponse
                 } catch (error) {
@@ -55,7 +55,7 @@ function AjouterRapport({ visiteur }) {
         console.log("Données qui sont envoyées : ", params) //test pr voir ???
         try {
             // Appel à l'API pour envoyer les données via la méthode PUT
-            const ajoutbdd = await api.put(`http://192.168.162.196/restGSB/ajouterRapport/`, params);
+            const ajoutbdd = await api.put(`http://192.168.198.196/restGSB/ajouterRapport/`, params);
             console.log("Insertion réussie du rapport :", ajoutbdd);
             setAddRapportSuccess(true); //màj en cas de succès
             setFormData({date: "", motif: "", bilan: ""});

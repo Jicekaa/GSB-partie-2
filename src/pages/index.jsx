@@ -59,7 +59,7 @@ function Index(){
             return "Connexion à l'api",response;
         }
         catch (error) {
-            console.log("Erreur connexion API");
+            console.log("Erreur connexion API (probablement l'adresse IP)");
         }
     }
 

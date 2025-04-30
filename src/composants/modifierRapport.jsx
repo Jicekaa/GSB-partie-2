@@ -20,10 +20,10 @@ function ModifierRapport({ visiteur }) {
         }
     }
 
-    /* Appel API avec comme paramètre idVisiteur et date */
+    /*Appel API avec comme paramètre idVisiteur et date*/
     async function rechercherRapports(idVisiteur, date) {
         try {
-            let response = await api.get(`http://192.168.162.196/restGSB/rapports_a_date?idVisiteur=${idVisiteur}&date=${date}`);
+            const response = await api.get(`http://192.168.198.196/restGSB/rapports_a_date?idVisiteur=${idVisiteur}&date=${date}`);
             console.log("Données récupérées depuis l'API : ", response.data);
             setListeRapports(response.data);
             if (response.data.length > 0) {
@@ -37,10 +37,35 @@ function ModifierRapport({ visiteur }) {
         }
     }
 
-    /* Mise à jour après changement de la date */
+    /* Màj après changement de la date */
     useEffect(() => {
-        if (date) chargerRapports();
+        if (date) {
+            chargerRapports();
+        } else {
+            setListeRapports([]); //retire la liste si c'est pas la bonne date
+            setMajRapportSuccess(null); //enlève le message de succès
+        }
     }, [date]);
+
+
+    /*Fonction qui va envoyer les modifs rapport dans la BDD*/
+    async function modifierRapportBase(idRapport, motif, bilan) {
+        try {
+            const responseModif = await api.put(`http://192.168.198.196/restGSB/majRapports/`, {idRapport, motif, bilan});
+            console.log("Données modif : ", responseModif);
+            setMajRapportSuccess(true);
+        } catch (error) {
+            console.error(error);
+            setMajRapportSuccess(false);
+        }
+    }
+
+    /*Fonction appelé lorsque le visiteur va valider la modif° du rapport*/
+    /*Appel la fct° modifierRapportBase*/
+    function modifierRapport(e) {
+        e.preventDefault(); //bloque le re-render
+        modifierRapportBase(rapport.idRapport, rapport.motif, rapport.bilan);
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
@@ -79,7 +104,7 @@ function ModifierRapport({ visiteur }) {
                             {listeRapports.map((rapport, index) => (
                                 <tr
                                     key={`rapport-ligne-${index}`}
-                                    className="hover:bg-neutral-100 active:bg-neutral-200 cursor-pointer"
+                                    className="hover:bg-gray-200 active:bg-gray-300 cursor-pointer"
                                     onClick={() => setRapport(rapport)}
                                 >
                                     <td className="border px-4 py-2">{rapport.idRapport}</td>
@@ -92,6 +117,35 @@ function ModifierRapport({ visiteur }) {
                     </table>
                 </div>
             )}
+
+            {/*Form pour modifier rapport sélectionné*/}
+            {(rapport.idRapport && listeRapports.length > 0) && (
+                <form onSubmit={modifierRapport} className="mt-6 w-full max-w-md">
+                    <p className="text-m font-bold mb-4">Modifier le rapport pour le médecin : {rapport.nomMedecin} {rapport.prenomMedecin}</p>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">Motif :</label>
+                    <input
+                        type="text"
+                        className="mb-4 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                        value={rapport.motif}
+                        onChange={(e) => setRapport({ ...rapport, motif: e.target.value })}
+                    />
+                    <label className="block text-gray-700 text-sm font-bold mb-2">Bilan :</label>
+                    <textarea
+                        className="mb-4 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                        value={rapport.bilan}
+                        onChange={(e) => setRapport({ ...rapport, bilan: e.target.value })}
+                    ></textarea>
+                    <button
+                        type="submit"
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-300"
+                    >
+                        Valider les modifications
+                    </button>
+                </form>
+            )}
+
+            {majRapportSuccess && <p className="text-green-600 mt-4">Rapport mis à jour !</p>}
+            {majRapportSuccess === false && <p className="text-red-600 mt-4">Erreur lors de la modification :'( </p>}
         </div>
     );
 }
